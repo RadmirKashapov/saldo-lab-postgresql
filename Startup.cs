@@ -1,14 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SladoLab.Models;
+using SladoLab.Models.Entities;
+using SladoLab.Models.Interfaces;
 
 namespace SladoLab
 {
@@ -24,10 +29,15 @@ namespace SladoLab
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //string sqlConnectionString = ConfigurationManager.ConnectionStrings["ApplicationContext"].ConnectionString;
+            string sqlConnectionString = "Host=localhost;Port=5432;Database=saldodb;Username=postgres;Password=@R150700";
+            
             services.AddControllersWithViews();
+            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(sqlConnectionString));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Saldo API", Version = "v1" });
             });
         }
 
@@ -63,7 +73,7 @@ namespace SladoLab
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Saldo API V1");
             });
         }
     }

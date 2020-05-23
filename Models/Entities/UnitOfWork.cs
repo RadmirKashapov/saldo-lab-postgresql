@@ -72,20 +72,6 @@ namespace SladoLab.Models.Entities
             private set { }
         }
 
-        public IRepository<Report> Reports
-        {
-            get
-            {
-                if (Reports == null)
-                {
-                    Reports = new ReportRepository(db);
-                }
-                return Reports;
-            }
-
-            private set { }
-        }
-
         public IRepository<Saldo> Saldos
         {
             get

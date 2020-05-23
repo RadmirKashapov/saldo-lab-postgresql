@@ -12,7 +12,6 @@ namespace SladoLab.Models.Interfaces
         IRepository<Contract> Contracts { get; }
         IRepository<House> Houses { get; }
         IRepository<Payment> Payments { get; }
-        IRepository<Report> Reports { get; }
         IRepository<Saldo> Saldos { get; }
         void Save();
     }
