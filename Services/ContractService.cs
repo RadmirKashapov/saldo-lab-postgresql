@@ -20,12 +20,15 @@ namespace SaldoLab.Services
             Database = uow;
         }
 
-        public ContractViewModel CreateContract(ContractCreateRQ contractCreateRQ)
+        public void CreateContract(ContractCreateRQ contractCreateRQ)
         {
             var contract = new Contract()
             {
                 BillNumber = contractCreateRQ.BillNumber
             };
+            
+            Database.Contracts.Create(contract);
+            Database.Save();
         }
 
         public void Delete(string Id)

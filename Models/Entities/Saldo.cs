@@ -20,9 +20,9 @@ namespace SladoLab.Models.Entities
         [Column(TypeName = "integer")]
         public int Year { get; set; }
 
-        [DefaultValue(typeof(DateTime))]
+        [DefaultValue(typeof(DateTime), "")]
         [Column(TypeName = "timestamp")]
-        public DateTime Date { get; set; } = DateTime.UtcNow;
+        public DateTime Date { get; set; } 
 
         [NotMapped]
         [Required]

@@ -10,6 +10,6 @@ namespace SaldoLab.Interfaces
     {
         PaymentViewModel GetPaymentById(string Id);
         IEnumerable<PaymentViewModel> GetPayments();
-        PaymentViewModel CreatePayment(string chargeId, PaymentCreateRQ paymentCreateRQ);
+        void CreatePayment(string chargeId, PaymentCreateRQ paymentCreateRQ);
     }
 }

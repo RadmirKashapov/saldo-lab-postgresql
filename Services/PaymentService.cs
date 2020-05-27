@@ -1,4 +1,6 @@
-﻿using SaldoLab.Infrastructure.Exceptions;
+﻿using Microsoft.VisualBasic.CompilerServices;
+using SaldoLab.Infrastructure;
+using SaldoLab.Infrastructure.Exceptions;
 using SaldoLab.Interfaces;
 using SaldoLab.Models.ViewModels;
 using SladoLab.Interfaces;
@@ -20,7 +22,14 @@ namespace SaldoLab.Services
 
         public void CreatePayment(string chargeId, PaymentCreateRQ paymentCreateRQ)
         {
-            throw new NotImplementedException();
+            var charge = Database.Charges.Find(o => !o.IsPaymentCompleted && o.Id == long.Parse(chargeId)).First() ?? throw new ValidationException($"Charge was paid.", "");
+
+            if(paymentCreateRQ.Value <= 0)
+            {
+                throw new ValidationException("There are no money", "");
+            }
+
+            SaldoUtils utils = new SaldoUtils.GetInstance();
         }
 
         public PaymentViewModel GetPaymentById(string Id)
@@ -31,8 +40,8 @@ namespace SaldoLab.Services
 
         public IEnumerable<PaymentViewModel> GetPayments()
         {
-            var charges = Database.Charges.GetAll().Select(ch => (ChargeViewModel)ch) ?? throw new ValidationException($"Charges not found.", "");
-            return charges;
+            var payments = Database.Payments.GetAll().Select(ch => (PaymentViewModel)ch) ?? throw new ValidationException($"Payments not found.", "");
+            return payments;
         }
     }
 }

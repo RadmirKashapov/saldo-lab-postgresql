@@ -10,7 +10,7 @@ namespace SaldoLab.Services
     {
         HouseViewModel GetHouseById(string Id);
         IEnumerable<HouseViewModel> GetHouses();
-        HouseViewModel CreateHouse(HouseCreateRQ houseRq);
+        void CreateHouse(HouseCreateRQ houseRq);
         HouseViewModel updateHouse(string id, HouseCreateRQ houseCreateRq);
     }
 }

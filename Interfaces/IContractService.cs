@@ -10,7 +10,7 @@ namespace SaldoLab.Interfaces
     {
         ContractViewModel GetContractById(string Id);
         IEnumerable<ContractViewModel> GetContracts();
-        ContractViewModel CreateContract(ContractCreateRQ contractCreateRQ);
+        void CreateContract(ContractCreateRQ contractCreateRQ);
         ContractViewModel UpdateContract(string Id, ContractCreateRQ contractCreateRQ);
         void Delete(string Id);
     }

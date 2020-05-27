@@ -18,9 +18,9 @@ namespace SaldoLab.Services
         {
             Database = uow;
         }
-        public ChargeViewModel CreateCharge(string houseId, ChargeCreateRQ chargeCreateRQ)
+        public void CreateCharge(string houseId, ChargeCreateRQ chargeCreateRQ)
         {
-            var house = Database.Houses.Get(long.Parse(houseId)) ?? throw new ValidationException($"House with {houseId} not found.", "");
+            var house = Database.Houses.Get(long.Parse(houseId)) ?? throw new ValidationException($"Charge with {houseId} not found.", "");
 
             var charge = new Charge() {
                 Value = chargeCreateRQ.Value,
@@ -29,14 +29,15 @@ namespace SaldoLab.Services
                 House = house,
                 HouseId = house.Id
             };
+            
             Database.Charges.Create(charge);
             Database.Save();
-            return GetChargeById(charge.Id.ToString());
         }
 
         public void Delete(string Id)
         {
             var charge = Database.Charges.Get(long.Parse(Id)) ?? throw new ValidationException($"Charge with {Id} not found.", "");
+            
             Database.Charges.Delete(long.Parse(Id));
             Database.Save();
         }
