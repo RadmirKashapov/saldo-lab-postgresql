@@ -30,8 +30,9 @@ namespace SladoLab
         public void ConfigureServices(IServiceCollection services)
         {
             //string sqlConnectionString = ConfigurationManager.ConnectionStrings["ApplicationContext"].ConnectionString;
+
             string sqlConnectionString = "Host=localhost;Port=5432;Database=saldodb;Username=postgres;Password=@R150700";
-            
+
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(sqlConnectionString));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
