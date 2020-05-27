@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SladoLab.Interfaces;
+using SladoLab.Models;
 using SladoLab.Models.Entities;
-using SladoLab.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Models.Repositories
+namespace SladoLab.Repositories
 {
     public class ContractRepository : IRepository<Contract>
     {
@@ -22,7 +23,7 @@ namespace SladoLab.Models.Repositories
             return db.Contracts;
         }
 
-        public Contract Get(string id)
+        public Contract Get(long id)
         {
             return db.Contracts.Find(id);
         }
@@ -42,7 +43,7 @@ namespace SladoLab.Models.Repositories
             return db.Contracts.Where(predicate).ToList();
         }
 
-        public void Delete(string id)
+        public void Delete(long id)
         {
             Contract Contract = db.Contracts.Find(id);
             if (Contract != null)

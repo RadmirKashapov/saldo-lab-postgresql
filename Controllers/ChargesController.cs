@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SaldoLab.Models.ViewModels;
+using SladoLab.Interfaces;
 using SladoLab.Models.Entities;
-using SladoLab.Models.Interfaces;
 
 namespace SladoLab.Controllers
 {
+    [Produces("application/json")]
+    [Route("api/Charges")]
     public class ChargesController : Controller
     {
         private readonly IUnitOfWork _dataAccessProvider;
@@ -18,7 +22,7 @@ namespace SladoLab.Controllers
         }
 
         [HttpGet]
-        [Route("api/Charges/Get")]
+        [Route("Get")]
         public IEnumerable<Charge> Get()
         {
             return _dataAccessProvider.Charges.GetAll();
@@ -26,19 +30,31 @@ namespace SladoLab.Controllers
 
         [HttpPost]
         [Route("api/Charges/Create")]
-        public void Create([FromBody] Charge charge)
+        public async Task<IActionResult> Create([FromBody] ChargeViewModel chargeViewModel)
         {
+
             if (ModelState.IsValid)
             {
-                Guid obj = Guid.NewGuid();
-                charge.Id = obj.ToString();
+                var mapperConfig = new MapperConfiguration(cfg => cfg.CreateMap<ChargeViewModel, Charge>()
+                .ForMember(dest => dest.Payments, opts => opts.MapFrom(src => src.Payments))
+                .ForMember(dest => dest.Saldo.Value, opts => opts.MapFrom(src => src.SaldoValue))
+                .ForMember(dest => dest.House, opts => opts.MapFrom(src => src.House))
+                .ForMember(dest => dest.HouseId, opts => opts.MapFrom(src => src.House.Id)));
+                var mapper = new Mapper(mapperConfig);
+                var charge = mapper.Map<ChargeViewModel, Charge>(chargeViewModel);
+
                 _dataAccessProvider.Charges.Create(charge);
+                return BadRequest(ModelState);
+            } 
+            else
+            {
+                return BadRequest(ModelState);
             }
         }
 
         [HttpGet]
         [Route("api/Charges/Details/{id}")]
-        public Charge Details(string id)
+        public Charge Details(long id)
         {
             return _dataAccessProvider.Charges.Get(id);
         }
@@ -55,7 +71,7 @@ namespace SladoLab.Controllers
 
         [HttpDelete]
         [Route("api/Charges/Delete/{id}")]
-        public void DeleteConfirmed(string id)
+        public void DeleteConfirmed(long id)
         {
             _dataAccessProvider.Charges.Delete(id);
         }

@@ -1,5 +1,5 @@
-﻿using SladoLab.Models.Interfaces;
-using SladoLab.Models.Repositories;
+﻿using SladoLab.Interfaces;
+using SladoLab.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

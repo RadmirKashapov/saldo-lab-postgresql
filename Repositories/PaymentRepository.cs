@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SladoLab.Interfaces;
+using SladoLab.Models;
 using SladoLab.Models.Entities;
-using SladoLab.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Models.Repositories
+namespace SladoLab.Repositories
 {
     public class PaymentRepository : IRepository<Payment>
     {
@@ -22,7 +23,7 @@ namespace SladoLab.Models.Repositories
             return db.Payments;
         }
 
-        public Payment Get(string id)
+        public Payment Get(long id)
         {
             return db.Payments.Find(id);
         }
@@ -42,7 +43,7 @@ namespace SladoLab.Models.Repositories
             return db.Payments.Where(predicate).ToList();
         }
 
-        public void Delete(string id)
+        public void Delete(long id)
         {
             Payment Payment = db.Payments.Find(id);
             if (Payment != null)

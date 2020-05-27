@@ -1,11 +1,16 @@
-﻿using System;
+﻿using SaldoLab.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SaldoLab.Web.Services
+namespace SaldoLab.Services
 {
-    interface IService
+    public interface IHouseService
     {
+        HouseViewModel GetHouseById(string Id);
+        IEnumerable<HouseViewModel> GetHouses();
+        HouseViewModel CreateHouse(HouseCreateRQ houseRq);
+        HouseViewModel updateHouse(string id, HouseCreateRQ houseCreateRq);
     }
 }

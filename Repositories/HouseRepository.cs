@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SladoLab.Interfaces;
+using SladoLab.Models;
 using SladoLab.Models.Entities;
-using SladoLab.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Models.Repositories
+namespace SladoLab.Repositories
 {
     public class HouseRepository : IRepository<House>
     {
@@ -22,7 +23,7 @@ namespace SladoLab.Models.Repositories
             return db.Houses;
         }
 
-        public House Get(string id)
+        public House Get(long id)
         {
             return db.Houses.Find(id);
         }
@@ -42,7 +43,7 @@ namespace SladoLab.Models.Repositories
             return db.Houses.Where(predicate).ToList();
         }
 
-        public void Delete(string id)
+        public void Delete(long id)
         {
             House House = db.Houses.Find(id);
             if (House != null)

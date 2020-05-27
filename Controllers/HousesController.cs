@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SladoLab.Models.Entities;
-using SladoLab.Models.Interfaces;
+using SladoLab.Interfaces;
 
 namespace SladoLab.Controllers
 {
@@ -30,15 +30,13 @@ namespace SladoLab.Controllers
         {
             if (ModelState.IsValid)
             {
-                Guid obj = Guid.NewGuid();
-                house.Id = obj.ToString();
                 _dataAccessProvider.Houses.Create(house);
             }
         }
 
         [HttpGet]
         [Route("api/Houses/Details/{id}")]
-        public House Details(string id)
+        public House Details(long id)
         {
             return _dataAccessProvider.Houses.Get(id);
         }
@@ -55,7 +53,7 @@ namespace SladoLab.Controllers
 
         [HttpDelete]
         [Route("api/Houses/Delete/{id}")]
-        public void DeleteConfirmed(string id)
+        public void DeleteConfirmed(long id)
         {
             _dataAccessProvider.Houses.Delete(id);
         }

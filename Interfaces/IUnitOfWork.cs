@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Models.Interfaces
+namespace SladoLab.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

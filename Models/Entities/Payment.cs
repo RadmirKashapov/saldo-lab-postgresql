@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -9,12 +10,13 @@ namespace SladoLab.Models.Entities
 {
     public class Payment
     {
-        [Column(TypeName = "varchar(500)")]
-        public string Id { get; set; }
+        public long Id { get; set; }
 
+        [DefaultValue(0)]
         [Column(TypeName = "decimal")]
         public decimal Value { get; set; }
 
+        [NotMapped]
         [Required]
         public virtual int MonthEnumId
         {
@@ -27,14 +29,18 @@ namespace SladoLab.Models.Entities
                 Month = (MonthEnum)value;
             }
         }
+
+        [DefaultValue(MonthEnum.JANUARY)]
         [EnumDataType(typeof(MonthEnum))]
         public MonthEnum Month { get; set; }
 
+        [DefaultValue(1970)]
         [Column(TypeName = "integer")]
         public int Year { get; set; }
 
-        public string ChargeId { get; set; }
+        public long ChargeId { get; set; }
 
+        [DefaultValue(null)]
         [ForeignKey("ChargeId")]
         public Charge Charge { get; set; }
     }

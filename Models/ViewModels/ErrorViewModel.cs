@@ -1,6 +1,6 @@
 using System;
 
-namespace SladoLab.Models
+namespace SaldoLab.Models.ViewModels
 {
     public class ErrorViewModel
     {

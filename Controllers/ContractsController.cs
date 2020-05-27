@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SladoLab.Interfaces;
 using SladoLab.Models.Entities;
-using SladoLab.Models.Interfaces;
 
 namespace SladoLab.Controllers
 {
@@ -30,15 +30,13 @@ namespace SladoLab.Controllers
         {
             if (ModelState.IsValid)
             {
-                Guid obj = Guid.NewGuid();
-                contract.Id = obj.ToString();
                 _dataAccessProvider.Contracts.Create(contract);
             }
         }
 
         [HttpGet]
         [Route("api/Contracts/Details/{id}")]
-        public Contract Details(string id)
+        public Contract Details(long id)
         {
             return _dataAccessProvider.Contracts.Get(id);
         }
@@ -55,7 +53,7 @@ namespace SladoLab.Controllers
 
         [HttpDelete]
         [Route("api/Contracts/Delete/{id}")]
-        public void DeleteConfirmed(string id)
+        public void DeleteConfirmed(long id)
         {
             _dataAccessProvider.Contracts.Delete(id);
         }

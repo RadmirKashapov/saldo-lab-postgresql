@@ -11,9 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SladoLab.Interfaces;
 using SladoLab.Models;
 using SladoLab.Models.Entities;
-using SladoLab.Models.Interfaces;
 
 namespace SladoLab
 {
