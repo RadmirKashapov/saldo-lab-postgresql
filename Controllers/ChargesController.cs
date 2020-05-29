@@ -2,78 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
+using HouseSaldoLab.Infrastructure.Exceptions;
+using HouseSaldoLab.Interfaces;
+using HouseSaldoLab.Models.ViewModels;
+using HouseSaldoLab.Repositories;
+using HouseSaldoLab.Services;
 using Microsoft.AspNetCore.Mvc;
-using SaldoLab.Models.ViewModels;
-using SladoLab.Interfaces;
-using SladoLab.Models.Entities;
 
-namespace SladoLab.Controllers
+namespace HouseSaldoLab.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Charges")]
     public class ChargesController : Controller
     {
-        private readonly IUnitOfWork _dataAccessProvider;
+        private readonly IChargeService _chargeService;
 
-        public ChargesController(IUnitOfWork dataAccessProvider)
+        public ChargesController(IChargeService serv)
         {
-            _dataAccessProvider = dataAccessProvider;
+            _chargeService = serv;
         }
 
         [HttpGet]
-        [Route("Get")]
-        public IEnumerable<Charge> Get()
+        [Route("api/charges/")]
+        public IActionResult Index()
         {
-            return _dataAccessProvider.Charges.GetAll();
+            try
+            {
+                var charges = _chargeService.GetCharges().Select(s => ChargeViewModel.FromDTO(s));
+                return View(charges);
+            }
+            catch (ValidationException ex)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
-        [Route("api/Charges/Create")]
-        public async Task<IActionResult> Create([FromBody] ChargeViewModel chargeViewModel)
+        [Route("api/сharges/сreate/{id}")]
+        public IActionResult Create(string id, [FromBody] ChargeViewModel chargeViewModel)
         {
 
             if (ModelState.IsValid)
             {
-                var mapperConfig = new MapperConfiguration(cfg => cfg.CreateMap<ChargeViewModel, Charge>()
-                .ForMember(dest => dest.Payments, opts => opts.MapFrom(src => src.Payments))
-                .ForMember(dest => dest.Saldo.Value, opts => opts.MapFrom(src => src.SaldoValue))
-                .ForMember(dest => dest.House, opts => opts.MapFrom(src => src.House))
-                .ForMember(dest => dest.HouseId, opts => opts.MapFrom(src => src.House.Id)));
-                var mapper = new Mapper(mapperConfig);
-                var charge = mapper.Map<ChargeViewModel, Charge>(chargeViewModel);
-
-                _dataAccessProvider.Charges.Create(charge);
-                return BadRequest(ModelState);
-            } 
+                var charge = _chargeService.CreateCharge(id, chargeViewModel);
+                return RedirectToAction();
+            }
             else
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
-        }
-
-        [HttpGet]
-        [Route("api/Charges/Details/{id}")]
-        public Charge Details(long id)
-        {
-            return _dataAccessProvider.Charges.Get(id);
-        }
-
-        [HttpPut]
-        [Route("api/Charges/Edit")]
-        public void Edit([FromBody] Charge charge)
-        {
-            if (ModelState.IsValid)
-            {
-                _dataAccessProvider.Charges.Update(charge);
-            }
-        }
-
-        [HttpDelete]
-        [Route("api/Charges/Delete/{id}")]
-        public void DeleteConfirmed(long id)
-        {
-            _dataAccessProvider.Charges.Delete(id);
         }
     }
 }

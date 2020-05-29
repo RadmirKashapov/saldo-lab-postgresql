@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Models.Entities
+namespace HouseSaldoLab.Infrastructure
 {
     public enum MonthEnum
     {

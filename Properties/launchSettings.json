@@ -1,10 +1,10 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:60444",
-      "sslPort": 44320
+      "applicationUrl": "http://localhost:57170",
+      "sslPort": 44355
     }
   },
   "profiles": {
@@ -15,13 +15,15 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SladoLab": {
+    "HouseSaldoLab": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "sqlDebugging": true,
+      "nativeDebugging": false,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }

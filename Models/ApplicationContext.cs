@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SladoLab.Models.Entities;
+﻿using HouseSaldoLab.Models.Entities;
+using HouseSaldoLab.Models.EntityBuilders;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Models
+namespace HouseSaldoLab.Models
 {
     public class ApplicationContext : DbContext
     {
@@ -15,9 +17,16 @@ namespace SladoLab.Models
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Saldo> Saldos { get; set; }
 
+        public ApplicationContext()
+        {
+            Database.EnsureCreated();
+        }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
+            Database.EnsureCreated();
         }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

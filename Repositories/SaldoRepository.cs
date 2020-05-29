@@ -1,17 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SladoLab.Interfaces;
-using SladoLab.Models;
-using SladoLab.Models.Entities;
+﻿using HouseSaldoLab.Interfaces;
+using HouseSaldoLab.Models;
+using HouseSaldoLab.Models.Entities;
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Repositories
+namespace HouseSaldoLab.Repositories
 {
     public class SaldoRepository : IRepository<Saldo>
     {
-        private ApplicationContext db;
+        private readonly ApplicationContext db;
 
         public SaldoRepository(ApplicationContext db)
         {
@@ -23,7 +24,7 @@ namespace SladoLab.Repositories
             return db.Saldos;
         }
 
-        public Saldo Get(long id)
+        public Saldo Get(Guid id)
         {
             return db.Saldos.Find(id);
         }
@@ -43,7 +44,7 @@ namespace SladoLab.Repositories
             return db.Saldos.Where(predicate).ToList();
         }
 
-        public void Delete(long id)
+        public void Delete(Guid id)
         {
             Saldo Saldo = db.Saldos.Find(id);
             if (Saldo != null)

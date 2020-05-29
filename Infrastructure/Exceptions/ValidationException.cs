@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SaldoLab.Infrastructure.Exceptions
+namespace HouseSaldoLab.Infrastructure.Exceptions
 {
     public class ValidationException: Exception
     {

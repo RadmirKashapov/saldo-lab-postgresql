@@ -1,71 +1,74 @@
-﻿using SaldoLab.Infrastructure.Exceptions;
-using SaldoLab.Interfaces;
-using SaldoLab.Models.ViewModels;
-using SladoLab.Interfaces;
-using SladoLab.Models.Entities;
+﻿using HouseSaldoLab.Infrastructure.Exceptions;
+using HouseSaldoLab.Interfaces;
+using HouseSaldoLab.Models.DTO;
+using HouseSaldoLab.Models.Entities;
+using HouseSaldoLab.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SaldoLab.Services
+namespace HouseSaldoLab.Services
 {
     public class ChargeService : IChargeService
     {
-        IUnitOfWork Database { get; set; }
+        private IUnitOfWork Database { get; set; }
 
         public ChargeService(IUnitOfWork uow)
         {
             Database = uow;
         }
-        public void CreateCharge(string houseId, ChargeCreateRQ chargeCreateRQ)
+        public ChargeDTO CreateCharge(string houseId, ChargeViewModel chargeViewModel)
         {
-            var house = Database.Houses.Get(long.Parse(houseId)) ?? throw new ValidationException($"Charge with {houseId} not found.", "");
+            var house = Database.Houses.Get(Guid.Parse(houseId)) ?? throw new ValidationException($"Charge with {houseId} not found.", "");
 
-            var charge = new Charge() {
-                Value = chargeCreateRQ.Value,
-                Month = chargeCreateRQ.Month,
-                Year = chargeCreateRQ.Year,
+            var guidObj = new Guid();
+            var charge = new Charge()
+            {
+                Id = guidObj,
+                Value = chargeViewModel.Value,
+                Month = chargeViewModel.Month,
+                Year = chargeViewModel.Year,
+                AddedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
                 House = house,
-                HouseId = house.Id
+                HouseId = house.Id,
+                IsCompleted = false,
+                Payments = null,
+                Saldo = null
             };
-            
+
             Database.Charges.Create(charge);
             Database.Save();
+
+            return ChargeDTO.FromData(charge);
         }
 
         public void Delete(string Id)
         {
-            var charge = Database.Charges.Get(long.Parse(Id)) ?? throw new ValidationException($"Charge with {Id} not found.", "");
+            throw new NotImplementedException();
+        }
+
+        public ChargeDTO GetChargeById(string Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ChargeDTO> GetCharges()
+        {
+            var charges = Database.Charges.GetAll();
             
-            Database.Charges.Delete(long.Parse(Id));
-            Database.Save();
+            if (charges == null)
+            {
+                throw new ValidationException("Charges not found", "");
+            }
+
+            return charges.Select(ch => ChargeDTO.FromData(ch));
         }
 
-        public ChargeViewModel GetChargeById(string Id)
+        public ChargeDTO UpdateCharge(string Id, ChargeViewModel chargeViewModel)
         {
-            var charge = Database.Charges.Get(long.Parse(Id)) ?? throw new ValidationException($"Charge with {Id} not found.", "");
-            return (ChargeViewModel)charge;
-        }
-
-        public IEnumerable<ChargeViewModel> GetCharges()
-        {
-            var charges = Database.Charges.GetAll().Select(ch => (ChargeViewModel)ch) ?? throw new ValidationException($"Charges not found.", "");
-            return charges;
-        }
-
-        public ChargeViewModel UpdateCharge(string Id, ChargeCreateRQ chargeCreateRQ)
-        {
-            var charge = Database.Charges.Get(long.Parse(Id)) ?? throw new ValidationException($"Charge with {Id} not found.", "");
-
-            charge.Value = chargeCreateRQ.Value;
-            charge.Month = chargeCreateRQ.Month;
-            charge.Year = chargeCreateRQ.Year;
-
-            Database.Charges.Update(charge);
-            Database.Save();
-
-            return GetChargeById(Id.ToString());
+            throw new NotImplementedException();
         }
     }
 }

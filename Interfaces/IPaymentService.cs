@@ -1,15 +1,11 @@
-﻿using SaldoLab.Models.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SaldoLab.Interfaces
+namespace HouseSaldoLab.Interfaces
 {
-    public interface IPaymentService
+    public class IPaymentService
     {
-        PaymentViewModel GetPaymentById(string Id);
-        IEnumerable<PaymentViewModel> GetPayments();
-        void CreatePayment(string chargeId, PaymentCreateRQ paymentCreateRQ);
     }
 }

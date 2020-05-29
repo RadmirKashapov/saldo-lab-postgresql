@@ -1,21 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
+using HouseSaldoLab.Interfaces;
+using HouseSaldoLab.Models;
+using HouseSaldoLab.Repositories;
+using HouseSaldoLab.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using SladoLab.Interfaces;
-using SladoLab.Models;
-using SladoLab.Models.Entities;
 
-namespace SladoLab
+namespace HouseSaldoLab
 {
     public class Startup
     {
@@ -29,13 +24,16 @@ namespace SladoLab
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //string sqlConnectionString = ConfigurationManager.ConnectionStrings["ApplicationContext"].ConnectionString;
-
-            string sqlConnectionString = "Host=localhost;Port=5432;Database=saldodb;Username=postgres;Password=@R150700";
-
             services.AddControllersWithViews();
-            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(sqlConnectionString));
+
+            //var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+
+            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql("Host=localhost;Port=5432;Database=saldodb;Username=postgres;Password=qwerty1234"));
+            services.AddDbContext<ApplicationContext>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IChargeService, ChargeService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Saldo API", Version = "v1" });

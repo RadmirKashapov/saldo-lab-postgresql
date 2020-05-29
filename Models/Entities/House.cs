@@ -1,30 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Models.Entities
+namespace HouseSaldoLab.Models.Entities
 {
-    public class House
+    public class House: BaseEntity
     {
-        public long Id { get; set; }
-
-        [DefaultValue(0)]
-        [Column(TypeName = "integer")]
         public int HouseNumber { get; set; }
-
-        [Column(TypeName = "bigint")]
-        public long ContractId { get; set; }
-
-        [DefaultValue(null)]
-        [ForeignKey("ContractId")]
+        public Guid ContractId { get; set; }
         public Contract Contract { get; set; }
-
-        [DefaultValue(null)]
-        public IEnumerable<Charge> Charges { get; set; }
+        public ICollection<Charge> Charges { get; set; }
     }
 }

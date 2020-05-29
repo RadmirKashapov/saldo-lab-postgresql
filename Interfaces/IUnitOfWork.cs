@@ -1,10 +1,10 @@
-﻿using SladoLab.Models.Entities;
+﻿using HouseSaldoLab.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Interfaces
+namespace HouseSaldoLab.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

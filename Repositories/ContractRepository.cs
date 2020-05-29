@@ -1,17 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SladoLab.Interfaces;
-using SladoLab.Models;
-using SladoLab.Models.Entities;
+﻿using HouseSaldoLab.Interfaces;
+using HouseSaldoLab.Models;
+using HouseSaldoLab.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SladoLab.Repositories
+namespace HouseSaldoLab.Repositories
 {
     public class ContractRepository : IRepository<Contract>
     {
-        private ApplicationContext db;
+        private readonly ApplicationContext db;
 
         public ContractRepository(ApplicationContext db)
         {
@@ -23,7 +23,7 @@ namespace SladoLab.Repositories
             return db.Contracts;
         }
 
-        public Contract Get(long id)
+        public Contract Get(Guid id)
         {
             return db.Contracts.Find(id);
         }
@@ -43,7 +43,7 @@ namespace SladoLab.Repositories
             return db.Contracts.Where(predicate).ToList();
         }
 
-        public void Delete(long id)
+        public void Delete(Guid id)
         {
             Contract Contract = db.Contracts.Find(id);
             if (Contract != null)

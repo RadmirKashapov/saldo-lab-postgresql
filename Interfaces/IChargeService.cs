@@ -1,17 +1,18 @@
-﻿using SaldoLab.Models.ViewModels;
+﻿using HouseSaldoLab.Models.DTO;
+using HouseSaldoLab.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SaldoLab.Interfaces
+namespace HouseSaldoLab.Interfaces
 {
     public interface IChargeService
     {
-        ChargeViewModel GetChargeById(string Id);
-        IEnumerable<ChargeViewModel> GetCharges();
-        void CreateCharge(string Id, ChargeCreateRQ chargeCreateRQ);
-        ChargeViewModel UpdateCharge(string Id, ChargeCreateRQ chargeCreateRQ);
+        ChargeDTO GetChargeById(string houseId);
+        IEnumerable<ChargeDTO> GetCharges();
+        ChargeDTO CreateCharge(string Id, ChargeViewModel chargeViewModel);
+        ChargeDTO UpdateCharge(string Id, ChargeViewModel chargeViewModel);
         void Delete(string Id);
     }
 }
