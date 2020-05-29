@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using HouseSaldoLab.Infrastructure.Exceptions;
 using HouseSaldoLab.Interfaces;
 using HouseSaldoLab.Models.ViewModels;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HouseSaldoLab.Controllers
 {
+    [RoutePrefix("home")]
     public class ChargesController : Controller
     {
         private readonly IChargeService _chargeService;
