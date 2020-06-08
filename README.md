@@ -32,4 +32,4 @@
     * Swagger
     
 ## Схема базы данных
-[![alt text](/RadmirKashapov/saldo-lab-postgresql/dataBase.jpg "Схема базы данных")](/RadmirKashapov/saldo-lab-postgresql/dataBase.jpg)
+[![Base](/dataBase.jpg "Схема базы данных")](/dataBase.jpg)
