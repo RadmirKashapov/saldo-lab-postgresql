@@ -15,7 +15,7 @@ namespace HouseSaldoLab.Models.DTO
         public Guid ChargeId { get; set; }
         public int Year { get; set; }
 
-        public PaymentDTO FromData(Payment payment)
+        public static PaymentDTO FromData(Payment payment)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Payment, PaymentDTO>());
             var mapper = new Mapper(config);

@@ -33,6 +33,10 @@ namespace HouseSaldoLab
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IChargeService, ChargeService>();
+            services.AddTransient<IContractService, ContractService>();
+            services.AddTransient<IHouseService, HouseService>();
+            services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<SaldoService>();
 
             services.AddSwaggerGen(c =>
             {

@@ -4,6 +4,7 @@ using HouseSaldoLab.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace HouseSaldoLab.Models.DTO
@@ -14,9 +15,10 @@ namespace HouseSaldoLab.Models.DTO
         public ContractDTO Contract { get; set; }
         public IEnumerable<ChargeDTO> Charges { get; set; }
 
-        public HouseDTO FromData(House house)
+        public static HouseDTO FromData(House house)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<House, HouseDTO>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<House, HouseDTO>()
+            .ForMember((dest => dest.Charges), opt => opt.MapFrom(src => src.Charges.Select(s => ChargeDTO.FromData(s)))));
             var mapper = new Mapper(config);
             return mapper.Map<HouseDTO>(house);
         }

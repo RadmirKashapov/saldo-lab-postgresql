@@ -29,8 +29,8 @@ namespace HouseSaldoLab.Services
                 Value = chargeViewModel.Value,
                 Month = chargeViewModel.Month,
                 Year = chargeViewModel.Year,
-                AddedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                AddedDate = DateTime.UtcNow,
+                ModifiedDate = DateTime.UtcNow,
                 House = house,
                 HouseId = house.Id,
                 IsCompleted = false,
@@ -46,12 +46,16 @@ namespace HouseSaldoLab.Services
 
         public void Delete(string Id)
         {
-            throw new NotImplementedException();
+            var charge = Database.Charges.Get(Guid.Parse(Id)) ?? throw new ValidationException($"Charge with {Id} not found.", "");
+
+            Database.Charges.Delete(Guid.Parse(Id));
+            Database.Save();
         }
 
         public ChargeDTO GetChargeById(string Id)
         {
-            throw new NotImplementedException();
+            var charge = Database.Charges.Get(Guid.Parse(Id)) ?? throw new ValidationException($"Charge with {Id} not found.", "");
+            return ChargeDTO.FromData(charge);
         }
 
         public IEnumerable<ChargeDTO> GetCharges()
@@ -68,7 +72,16 @@ namespace HouseSaldoLab.Services
 
         public ChargeDTO UpdateCharge(string Id, ChargeViewModel chargeViewModel)
         {
-            throw new NotImplementedException();
+            var charge = Database.Charges.Get(Guid.Parse(Id)) ?? throw new ValidationException($"Charge with {Id} not found.", "");
+
+            charge.Value = chargeViewModel.Value;
+            charge.Month = chargeViewModel.Month;
+            charge.Year = chargeViewModel.Year;
+            charge.ModifiedDate = DateTime.UtcNow;
+            Database.Charges.Update(charge);
+            Database.Save();
+
+            return GetChargeById(Id.ToString());
         }
     }
 }

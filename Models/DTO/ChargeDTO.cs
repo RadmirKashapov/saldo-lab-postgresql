@@ -23,7 +23,8 @@ namespace HouseSaldoLab.Models.DTO
 
         public static ChargeDTO FromData(Charge charge)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Charge, ChargeDTO>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Charge, ChargeDTO>()
+            .ForMember((dest => dest.House), opt => opt.MapFrom(src => HouseDTO.FromData(src.House))));
             var mapper = new Mapper(config);
             return mapper.Map<ChargeDTO>(charge);
         }

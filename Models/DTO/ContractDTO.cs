@@ -11,7 +11,7 @@ namespace HouseSaldoLab.Models.DTO
     {
         public int BillNumber { get; set; }
 
-        public ContractDTO FromData(Contract contract)
+        public static ContractDTO FromData(Contract contract)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Contract, ContractDTO>());
             var mapper = new Mapper(config);
